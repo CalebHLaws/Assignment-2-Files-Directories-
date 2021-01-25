@@ -144,11 +144,15 @@ int notInBlacklist(int testyear,int* blacklist){
 * Prints the highest rated movie of a given year
 */
 void printHighestYear(int testyear,struct Movie *list,char* directory){
-  //printf("Checking year: %i\n",testyear); FOR TESTING
+  printf("Checking year: %i\n",testyear); //FOR TESTING
+  
   FILE *pFile;
   char* name = calloc(12, sizeof(char));
   sprintf(name,"%i",testyear);
   strcat(directory,".txt");
+
+  pFile = fopen(directory,"w");
+
 
   while(list!=NULL){
     if(list->year == testyear){
@@ -158,7 +162,9 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
     }
     list=list->next;
   }
+  fclose(pFile);
   free(name);
+  
 }
 /*
 * Adds number to the blacklist
