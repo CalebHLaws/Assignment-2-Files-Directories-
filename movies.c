@@ -13,8 +13,8 @@ struct Movie{
 }Movie;
 
 void createYears(struct dirent *aDir, char* directory){
-  
-  struct Movie *list = processFile(aDir->d_name);
+  printf(aDir->d_name);
+  struct Movie *list = processFile(directory);
   highestRated(list,directory);
 }
 
@@ -57,7 +57,7 @@ struct Movie *createMovie(char *currLine)
 * Return a linked list of Movies by parsing data from
 * each line of the specified file.
 */
-struct Movie *processFile(char *filePath)
+struct Movie *proccessMovies(char *filePath)
 {
     // Open the specified file for reading only
     FILE *movieFile = fopen(filePath, "r");
@@ -111,17 +111,6 @@ void printMovie(struct Movie* aMovie){
                aMovie->languages,
                aMovie->rating);
 }
-/*
-* Print the linked list of Movies
-*/
-void printMovieList(struct Movie *list)
-{
-    while (list != NULL)
-    {
-        printMovie(list);
-        list = list->next;
-    }
-}
 
 /*
 * Returns number of movies
@@ -134,25 +123,6 @@ int countMovies(struct Movie *list){
         list = list->next;
     }
   return count;
-}
-
-/*
-* Takes list of movies and prints a list of movies from a certain year
-*/
-void printYear(struct Movie *list, int option){
-  printf("\n");
-  int None = 1;
-  while (list != NULL){
-        if (list->year == option){
-          printf("%s\n",list->title);
-          None = 0;
-        }
-        list = list->next;
-    }
-  if(None){
-    printf("No movies for the year: %i\n",option);
-  }
-  printf("\n");
 }
 
 /*
@@ -173,21 +143,22 @@ int notInBlacklist(int testyear,int* blacklist){
 /*
 * Prints the highest rated movie of a given year
 */
-void printHighestYear(int testyear,struct Movie *list){
+void printHighestYear(int testyear,struct Movie *list,char* directory){
   //printf("Checking year: %i\n",testyear); FOR TESTING
-  struct Movie *highest = malloc(sizeof(struct Movie));
-  highest->rating = -1;
+  FILE *pFile;
+  char* name = calloc(12, sizeof(char));
+  sprintf(name,"%i",testyear);
+  strcat(directory,".txt");
+
   while(list!=NULL){
     if(list->year == testyear){
-      if(list->rating > highest->rating){
-        highest->title = list->title;
-        highest->rating = list->rating;
-      }
+      fputs(list->title,pFile);
+      fputs(" : ",pFile);
+      fputs("This is the rating", pFile);
     }
     list=list->next;
   }
-  printf("%i: %s , %.1f\n",testyear,highest->title,highest->rating);
-  free(highest);
+  free(name);
 }
 /*
 * Adds number to the blacklist
@@ -208,9 +179,8 @@ void highestRated(struct Movie *list,char* directory){
   printf("\n");
   int count = countMovies(list)+1;
   int* blacklist = calloc(count,sizeof(int));
-  FILE *pFile;
-  pFile = fopen(directory,"w");
   
+    
   for(int i=0;i<count;i++){
     blacklist[i] = -1;
   }
@@ -218,7 +188,7 @@ void highestRated(struct Movie *list,char* directory){
   while (list != NULL){
     if(notInBlacklist(list->year,blacklist)){
       
-      printHighestYear(list->year,list);
+      printHighestYear(list->year,list,directory);
       updateBlacklist(list->year,blacklist);
     }
       list = list->next;
@@ -229,26 +199,4 @@ void highestRated(struct Movie *list,char* directory){
 
 /*
 * Prints each movie that has a certain language
-*/
-void printMoviesWithLanguage(struct Movie *list,char* language){
-  int None = 1;
-  while (list != NULL)
-    {
-        if (strstr(list->languages,language)){
-          printf("%s\n",list->title);
-          None = 0;
-        }
-        list = list->next;
-    }
-  if(None){
-    printf("No movies for the year: %s\n",language);
-  }
-  printf("\n");
-}
-
-/*
-*   Process the file provided as an argument to the program to
-*   create a linked list of Movie structs and print out the list.
-*   Compile the program as follows:
-*       gcc --std=gnu99 -o movies main.c
 */
