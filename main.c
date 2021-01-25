@@ -10,6 +10,8 @@
 #include <limits.h>
 #include <fcntl.h>
 
+#include "movies.h"
+
 bool isCSV(char* fileName){
   char* ext = strchr(fileName,'.');
   if(!ext)
@@ -30,8 +32,8 @@ int mylog10(int num){
   return i;
 }
 
-void processMovie(struct dirent *aDir, char*){
-
+void proccessMovie(struct dirent *aDir, char* directory){
+  
   
 }
 
