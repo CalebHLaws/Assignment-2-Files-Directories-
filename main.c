@@ -30,6 +30,10 @@ int mylog10(int num){
   return i;
 }
 
+void processMovie(struct dirent *aDir, char*){
+
+  
+}
 
 void proccessFile(struct dirent *aDir){
   int num = rand()%100000;
@@ -46,7 +50,7 @@ void proccessFile(struct dirent *aDir){
 		perror("Error");
 		exit(1);
 	}
-
+  proccessMovie(aDir,directory);
 	free(directory);
   free(temp);
 }
