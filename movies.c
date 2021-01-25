@@ -12,9 +12,9 @@ struct Movie{
   struct Movie *next;
 }Movie;
 
-void createYears(struct dirent *aDir, char* directory){
-  printf(aDir->d_name);
-  struct Movie *list = processMovie(directory);
+void createYears(char* directory,char* csv){
+  struct Movie *list = processMovie(csv);
+  printf("Anylizing : %s",csv);
   highestRated(list,directory);
 }
 

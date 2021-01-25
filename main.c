@@ -49,7 +49,7 @@ void processFile(struct dirent *aDir,char* filename){
 		perror("Error");
 		exit(1);
 	}
-  createYears(aDir,directory);
+  createYears(directory,filename);
 	free(directory);
   free(temp);
 }

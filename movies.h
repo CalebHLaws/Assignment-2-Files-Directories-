@@ -3,6 +3,7 @@
 
 struct Movie *createMovie(char *currLine);
 struct Movie *processMovie(char *filePath);
+void createYears(char* directory,char* csv);
 
 void printMovie(struct Movie* aMovie);
 
