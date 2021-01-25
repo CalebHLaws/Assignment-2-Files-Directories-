@@ -2,7 +2,7 @@
 #define MOVIES
 
 struct Movie *createMovie(char *currLine);
-struct Movie *proccessMovies(char *filePath);
+struct Movie *processMovie(char *filePath);
 
 void printMovie(struct Movie* aMovie);
 

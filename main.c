@@ -34,7 +34,7 @@ int mylog10(int num){
   return i;
 }
 
-void proccessFile(struct dirent *aDir,char* filename){
+void processFile(struct dirent *aDir,char* filename){
   int num = rand()%100000;
   char* temp = calloc( mylog10(num)+1,sizeof(char) ); 
   sprintf(temp,"%i",num);
@@ -114,7 +114,7 @@ void findSmallestFile(){
   // Close the directory
   closedir(currDir);
   printf("\nThe smallest file is %s, at a size of %li bytes\n\n", entryName, minSize);
-  proccessFile(aDir,entryName);
+  processFile(aDir,entryName);
   free(entryName);
 }
 
@@ -131,7 +131,7 @@ int findSpecificFile(char* searchName){
   while((aDir = readdir(currDir)) != NULL){
     if(strcmp(aDir->d_name,searchName) == 0){
       printf("Processing file : %s\n",aDir->d_name);
-      proccessFile(aDir,searchName);
+      processFile(aDir,searchName);
       return 1;
     }
   }

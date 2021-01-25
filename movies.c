@@ -14,7 +14,7 @@ struct Movie{
 
 void createYears(struct dirent *aDir, char* directory){
   printf(aDir->d_name);
-  struct Movie *list = processFile(directory);
+  struct Movie *list = processMovie(directory);
   highestRated(list,directory);
 }
 
@@ -57,7 +57,7 @@ struct Movie *createMovie(char *currLine)
 * Return a linked list of Movies by parsing data from
 * each line of the specified file.
 */
-struct Movie *proccessMovies(char *filePath)
+struct Movie *processMovie(char *filePath)
 {
     // Open the specified file for reading only
     FILE *movieFile = fopen(filePath, "r");
