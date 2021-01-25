@@ -147,18 +147,22 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
   printf("Checking year: %i\n",testyear); //FOR TESTING
   
   FILE *pFile;
-  char* name = calloc(12, sizeof(char));
+  char* name = calloc(12+sizeof(directory), sizeof(char));
+  strcat(name,directory);
   sprintf(name,"%i",testyear);
-  strcat(directory,".txt");
+  strcat(name,".txt");
 
-  pFile = fopen(directory,"w");
+  pFile = fopen(name,"w");
 
 
   while(list!=NULL){
     if(list->year == testyear){
+      /*
       fputs(list->title,pFile);
       fputs(" : ",pFile);
       fputs("This is the rating", pFile);
+      fputs("\n",pFile);
+      */
     }
     list=list->next;
   }
