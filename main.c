@@ -79,10 +79,10 @@ void findLargestFile(){
       }
     }
   }
+   printf("\nThe largest file is %s, at a size of %li bytes\n\n", entryName, maxStat.st_size);
+  processFile(aDir,entryName);
   // Close the directory
   closedir(currDir);
-  printf("\nThe largest file is %s, at a size of %li bytes\n\n", entryName, maxStat.st_size);
-  processFile(aDir,entryName);
   free(entryName);
 }
 /*
@@ -111,10 +111,10 @@ void findSmallestFile(){
       }
     }
   }
-  // Close the directory
-  closedir(currDir);
   printf("\nThe smallest file is %s, at a size of %li bytes\n\n", entryName, minSize);
   processFile(aDir,entryName);
+  // Close the directory
+  closedir(currDir);
   free(entryName);
 }
 
