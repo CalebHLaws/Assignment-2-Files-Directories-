@@ -57,25 +57,24 @@ void findLargestFile(){
   DIR* currDir = opendir(".");
   struct dirent *aDir;
   struct stat dirStat;
-  struct stat maxStat;
   char *entryName = NULL;
-
-  stat(aDir->d_name,&maxStat); //Set max size
+  int maxSize = 0;
+  
   // Go through all the entries
   while((aDir = readdir(currDir)) != NULL){
     if(isCSV(aDir->d_name)){
       printf("Testing file: %s\n",aDir->d_name);
       stat(aDir->d_name, &dirStat); 
-      if(dirStat.st_size > maxStat.st_size){
+      if(dirStat.st_size > maxSize){
         // Set max Stat to stat
-        maxStat = dirStat; 
+        maxSize = aDir->d_name; 
         free(entryName);
         entryName = calloc(strlen(aDir->d_name)+1,sizeof(char));
         strcpy(entryName, aDir->d_name);
       }
     }
   }
-   printf("\nThe largest file is %s, at a size of %li bytes\n\n", entryName, maxStat.st_size);
+  printf("\nThe largest file is %s, at a size of %li bytes\n\n", entryName, maxSize);
   processFile(aDir,entryName);
   // Close the directory
   closedir(currDir);
