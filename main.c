@@ -58,7 +58,7 @@ void findLargestFile(){
   struct dirent *aDir;
   struct stat dirStat;
   char *entryName = NULL;
-  int maxSize = 0;
+  long int maxSize = 0;
   
   // Go through all the entries
   while((aDir = readdir(currDir)) != NULL){
@@ -67,7 +67,7 @@ void findLargestFile(){
       stat(aDir->d_name, &dirStat); 
       if(dirStat.st_size > maxSize){
         // Set max Stat to stat
-        maxSize = aDir->d_name; 
+        maxSize = dirStat.st_size; 
         free(entryName);
         entryName = calloc(strlen(aDir->d_name)+1,sizeof(char));
         strcpy(entryName, aDir->d_name);
