@@ -39,16 +39,12 @@ void processFile(struct dirent *aDir,char* filename){
   char* temp = calloc( mylog10(num)+1,sizeof(char) ); 
   sprintf(temp,"%i",num);
   //Promissions should be rwxr-x--- / 0750
-  char* directory = calloc(strlen("./lawsc.movies.")+mylog10(num)+1,sizeof(char) );
-  strcat(directory,"./lawsc.movies.");
+  char* directory = calloc(strlen("/lawsc.movies.")+mylog10(num)+1,sizeof(char) );
+  strcat(directory,"/lawsc.movies/");
   strcat(directory,temp);
+  mkdir(directory,0750);
   printf("Created directory : %s\n",directory);
-  int file_descriptor = open(directory, O_RDWR | O_CREAT | O_TRUNC, 0750);
-	if (file_descriptor == -1){
-		printf("open() failed on \"%s\"\n", directory);
-		perror("Error");
-		exit(1);
-	}
+  
   createYears(directory,filename);
 	free(directory);
   free(temp);

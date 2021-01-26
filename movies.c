@@ -146,7 +146,7 @@ int notInBlacklist(int testyear,int* blacklist){
 void printHighestYear(int testyear,struct Movie *list,char* directory){
   printf("Building directory: %s, for year: %i\n",directory,testyear); //FOR TESTING
   struct Movie *highest = malloc(sizeof(struct Movie));
-  FILE *pFile;
+  FILE *pFile = malloc(sizeof(FILE));
   char* name = calloc(strlen(directory)+4+1+4+1, sizeof(char));
   // directory/####.txt\null
   char temp[5];
@@ -154,8 +154,7 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
   for(int i = 0;i<strlen(directory);i++){
     name[i] = directory[i];
   }
-
-  strcat(name,"/");
+  strcat(name, "/");
   sprintf(temp,"%i",testyear);
   strcat(name, temp);
   strcat(name,".txt");
@@ -170,9 +169,12 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
     }
     list=list->next;
   }
-  printf("Title : %s\n",highest->title);
-  //fprintf(pFile,"%s : %f.1\n",highest->title,highest->rating); 
+  
+  printf("Title : %s, Rating: %.1f\n",highest->title,highest->rating);
+  fprintf(pFile,"%s : %.1f\n",highest->title,highest->rating);
+  
   //fclose(pFile);
+  //free(pFile);
   free(highest);
   free(name);
 }
