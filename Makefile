@@ -1,2 +1,6 @@
 make:
-	gcc --std=gnu99 -g -o movies_by_year main.c
+	gcc --std=gnu99 -g -c movies.c main.c
+	gcc --std=gnu99 -g movies.o main.o -o movies_by_year
+
+clean:
+	rm main.o movies.o movies_by_year

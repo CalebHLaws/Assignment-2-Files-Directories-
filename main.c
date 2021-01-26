@@ -10,6 +10,10 @@
 #include <limits.h>
 #include <fcntl.h>
 
+#include "movies.h"
+
+//TODO SEGFAULT ON processFile movies.c:76 it's using Dir instead of actuall .csv file name CHANGE THIS 
+
 bool isCSV(char* fileName){
   char* ext = strchr(fileName,'.');
   if(!ext)
@@ -30,12 +34,7 @@ int mylog10(int num){
   return i;
 }
 
-void processMovie(struct dirent *aDir, char*){
-
-  
-}
-
-void proccessFile(struct dirent *aDir){
+void processFile(struct dirent *aDir,char* filename){
   int num = rand()%100000;
   char* temp = calloc( mylog10(num)+1,sizeof(char) ); 
   sprintf(temp,"%i",num);
@@ -50,7 +49,7 @@ void proccessFile(struct dirent *aDir){
 		perror("Error");
 		exit(1);
 	}
-  proccessMovie(aDir,directory);
+  createYears(directory,filename);
 	free(directory);
   free(temp);
 }
@@ -80,10 +79,10 @@ void findLargestFile(){
       }
     }
   }
+   printf("\nThe largest file is %s, at a size of %li bytes\n\n", entryName, maxStat.st_size);
+  processFile(aDir,entryName);
   // Close the directory
   closedir(currDir);
-  printf("\nThe largest file is %s, at a size of %li bytes\n\n", entryName, maxStat.st_size);
-  proccessFile(aDir);
   free(entryName);
 }
 /*
@@ -112,10 +111,10 @@ void findSmallestFile(){
       }
     }
   }
+  printf("\nThe smallest file is %s, at a size of %li bytes\n\n", entryName, minSize);
+  processFile(aDir,entryName);
   // Close the directory
   closedir(currDir);
-  printf("\nThe smallest file is %s, at a size of %li bytes\n\n", entryName, minSize);
-  proccessFile(aDir);
   free(entryName);
 }
 
@@ -132,7 +131,7 @@ int findSpecificFile(char* searchName){
   while((aDir = readdir(currDir)) != NULL){
     if(strcmp(aDir->d_name,searchName) == 0){
       printf("Processing file : %s\n",aDir->d_name);
-      proccessFile(aDir);
+      processFile(aDir,searchName);
       return 1;
     }
   }
