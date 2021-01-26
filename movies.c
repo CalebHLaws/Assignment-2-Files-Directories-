@@ -158,7 +158,7 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
   strcat(name, temp);
   strcat(name,".txt");
 
-  FILE *pFile = malloc(sizeof(FILE));
+  FILE *pFile;
   pFile = fopen(name,"w");
   printf("Saving to :%s\n",name);
 
@@ -172,8 +172,7 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
   
   printf("Title : %s, Rating: %.1f\n",highest->title,highest->rating);
   fprintf(pFile,"%s : %.1f\n",highest->title,highest->rating);
-  //fclose(pFile);
-  free(pFile);
+  fclose(pFile);
   free(highest);
   free(name);
 }
