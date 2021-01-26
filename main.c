@@ -43,7 +43,7 @@ void processFile(struct dirent *aDir,char* filename){
   strcat(directory,"./lawsc.movies.");
   strcat(directory,temp);
   mkdir(directory,0750);
-  printf("Created directory : %s\n",directory);
+  printf("Created directory : %s",directory);
   
   createYears(directory,filename);
 	free(directory);

@@ -1,8 +1,10 @@
 #include "movies.h"
+#include <fcntl.h>
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 struct Movie{
   char *title;
@@ -14,7 +16,6 @@ struct Movie{
 
 void createYears(char* directory,char* csv){
   struct Movie *list = processMovie(csv);
-  printf("Anylizing : %s",csv);
   highestRated(list,directory);
 }
 
@@ -132,7 +133,6 @@ int notInBlacklist(int testyear,int* blacklist){
   int i=0;
     while(blacklist[i]!=-1){
       if(testyear == blacklist[i]){
-        //printf("Skipped year %i\n",testyear); //FOR TESTING
         return 0;        
       }
       i++;
@@ -145,7 +145,6 @@ int notInBlacklist(int testyear,int* blacklist){
 */
 void printHighestYear(int testyear,struct Movie *list,char* directory){
 
-  struct Movie *highest = malloc(sizeof(struct Movie));
   char* name = calloc(strlen(directory)+4+1+4+1, sizeof(char));
   // directory/####.txt\null
   char temp[5];
@@ -159,21 +158,15 @@ void printHighestYear(int testyear,struct Movie *list,char* directory){
   strcat(name,".txt");
 
   FILE *pFile;
-  pFile = fopen(name,"w");
-  printf("Saving to :%s\n",name);
-
+  pFile = fopen(name,"w"); //-rw-r---- 0640 TODO
+  chmod(name,0640);
   while(list!=NULL){
     if(list->year == testyear){
-      highest->title = list->title;
-      highest->rating = list->rating;   
+      fprintf(pFile,"%s : %.1f\n",list->title,list->rating); 
     }
     list=list->next;
   }
-  
-  printf("Title : %s, Rating: %.1f\n",highest->title,highest->rating);
-  fprintf(pFile,"%s : %.1f\n",highest->title,highest->rating);
   fclose(pFile);
-  free(highest);
   free(name);
 }
 /*
